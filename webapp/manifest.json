@@ -1,0 +1,82 @@
+{
+  "_version": "1.65.0",
+  "sap.app": {
+    "id": "ui5l1",
+    "type": "application",
+    "i18n": "i18n/i18n.properties"
+  },
+  "sap.ui": {
+    "technology": "UI5",
+    "deviceTypes": {
+      "desktop": true,
+      "tablet": true,
+      "phone": true
+    },
+    "resourceRoots": {
+      "InventoryManagement.utils": "ui5l1/utils"
+    },
+    "supportedThemes": ["sap_horizon"]
+  },
+  "sap.ui5": {
+    "rootView": {
+      "viewName": "ui5l1.view.home",
+      "type": "XML",
+      "async": true,
+      "id": "app"
+    },
+    "dependencies": {
+      "minUI5Version": "1.108.0",
+      "libs": {
+        "sap.m": {},
+        "sap.ui.core": {},
+        "sap.ui.layout": {}
+      }
+    },
+    "models": {
+      "i18n": {
+        "type": "sap.ui.model.resource.ResourceModel",
+        "settings": {
+          "bundleName": "ui5l1.i18n.i18n"
+        }
+      },
+      "productModel": {
+        "type": "sap.ui.model.json.JSONModel"
+      }
+    },
+    "routing": {
+      "config": {
+        "routerClass": "sap.m.routing.Router",
+        "viewType": "XML",
+        "viewPath": "ui5l1.view",
+        "controlId": "app",
+        "controlAggregation": "pages",
+        "async": true
+      },
+      "routes": [
+        {
+          "pattern": "",
+          "name": "home",
+          "target": "home"
+        },
+        {
+          "pattern": "add",
+          "name": "add",
+          "target": "add"
+        },
+        {
+          "pattern": "edit/{productId}",
+          "name": "edit",
+          "target": "add"
+        }
+      ],
+      "targets": {
+        "home": {
+          "viewName": "home"
+        },
+        "add": {
+          "viewName": "Add"
+        }
+      }
+    }
+  }
+}

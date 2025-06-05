@@ -1,0 +1,104 @@
+<mvc:View
+    controllerName="ui5l1.controller.Add"
+    xmlns="sap.m"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:form="sap.ui.layout.form"
+    xmlns:core="sap.ui.core">
+
+    <Page 
+        id="addProductPage"
+        title="Add Product"
+        showNavButton="true"
+        navButtonPress="onNavBack">
+        
+        <content>
+            <ScrollContainer height="100%" width="100%">
+                <VBox class="sapUiMediumMargin">
+                    <Panel headerText="Product Details" class="sapUiResponsiveMargin">
+                        <content>
+                            <form:SimpleForm
+                                id="productForm"
+                                layout="ResponsiveGridLayout"
+                                editable="true"
+                                columnsXL="2"
+                                columnsL="2"
+                                columnsM="1"
+                                columnsS="1">
+                                
+                                <Label text="Product Name" required="true" />
+                                <Input 
+                                    id="nameInput"
+                                    value="{formModel>/name}"
+                                    placeholder="Enter product name"
+                                    valueState="{formModel>/nameState}"
+                                    valueStateText="{formModel>/nameStateText}"
+                                    liveChange="onInputChange" />
+                                
+                                <Label text="Category" required="true" />
+                                <Select
+                                    id="categorySelect"
+                                    selectedKey="{formModel>/category}"
+                                    valueState="{formModel>/categoryState}"
+                                    valueStateText="{formModel>/categoryStateText}"
+                                    change="onInputChange">
+                                    <items>
+                                        <core:Item key="" text="Please select..." />
+                                        <core:Item key="Electronics" text="Electronics" />
+                                        <core:Item key="Cloths" text="Cloths" />
+                                        <core:Item key="Food" text="Food" />
+                                        <core:Item key="Books" text="Books" />
+                                    </items>
+                                </Select>
+                                
+                                <Label text="Price (₹)" required="true" />
+                                <Input 
+                                    id="priceInput"
+                                    value="{formModel>/price}"
+                                    placeholder="0.00"
+                                    type="Number"
+                                    valueState="{formModel>/priceState}"
+                                    valueStateText="{formModel>/priceStateText}"
+                                    liveChange="onInputChange" />
+                                
+                                <Label text="Stock Quantity" required="true" />
+                                <Input 
+                                    id="stockInput"
+                                    value="{formModel>/stock}"
+                                    placeholder="0"
+                                    type="Number"
+                                    valueState="{formModel>/stockState}"
+                                    valueStateText="{formModel>/stockStateText}"
+                                    liveChange="onInputChange" />
+                                
+                                <Label text="Minimum Stock Level" required="true" />
+                                <Input 
+                                    id="minStockInput"
+                                    value="{formModel>/minStock}"
+                                    placeholder="0"
+                                    type="Number"
+                                    valueState="{formModel>/minStockState}"
+                                    valueStateText="{formModel>/minStockStateText}"
+                                    liveChange="onInputChange" />
+                                    
+                            </form:SimpleForm>
+                        </content>
+                    </Panel>
+
+                    <HBox justifyContent="End" class="sapUiMediumMarginTop">
+                        <Button 
+                            text="Cancel"
+                            press="onCancel"
+                            class="sapUiTinyMarginEnd" />
+                        <Button 
+                            id="saveButton"
+                            text="Save"
+                            type="Emphasized"
+                            press="onSave" />
+                    </HBox>
+                    
+                </VBox>
+            </ScrollContainer>
+        </content>
+    </Page>
+    
+</mvc:View>

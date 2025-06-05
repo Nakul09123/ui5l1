@@ -1,0 +1,97 @@
+<mvc:View
+    controllerName="ui5l1.controller.home"
+    xmlns="sap.m"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:core="sap.ui.core">
+
+    <App id="app">
+        <Page title="Product Management">
+            <content>
+                <VBox>
+                    <Toolbar>
+                        <SearchField 
+                            id="search"
+                            placeholder="Search here"
+                            search="onSearch"
+                            liveChange="onSearch"
+                            width="40%" />
+                        <Select
+                            id="categories"
+                            selectedKey="All"
+                            change="onFilter"
+                            width="20%">
+                            <items>
+                                <core:Item key="All" text="All Categories" />
+                                <core:Item key="Electronics" text="Electronics" />
+                                <core:Item key="Cloths" text="Cloths" />
+                                <core:Item key="Food" text="Food" />
+                                <core:Item key="Books" text="Books" />
+                            </items>
+                        </Select>
+                        <Button 
+                            text="Sort by Name"
+                            press="onSort" />
+                        <Button 
+                            text="Sort by Price"
+                            press="onSort" />
+                        <Button
+                            text="Add Product"
+                            icon="sap-icon://add"
+                            type="Emphasized"
+                            press="onAddProductPress" />
+                        <Button
+                            text="Delete Selected"
+                            icon="sap-icon://delete"
+                            type="Reject"
+                            press="onDeleteSelected" />
+                    </Toolbar>
+                    <Table 
+                        id="productTable"
+                        items="{productModel>/products}"
+                        mode="MultiSelect"
+                        growing="true"
+                        growingScrollToLoad="true"
+                        growingThreshold="10"
+                        showNoData="true"
+                        noDataText="No products available.">
+                        <columns>
+                            <Column><Text text="ID" /></Column>
+                            <Column><Text text="Product Name" /></Column>
+                            <Column><Text text="Category" /></Column>
+                            <Column><Text text="Price" /></Column>
+                            <Column><Text text="Stock" /></Column>
+                            <Column><Text text="Min Stock" /></Column>
+                            <Column><Text text="Actions" /></Column>
+                        </columns>
+                        <items>
+                            <ColumnListItem>
+                                <cells>
+                                    <Text text="{productModel>id}" />
+                                    <Text text="{productModel>name}" />
+                                    <Text text="{productModel>category}" />
+                                    <Text text="{productModel>price}" />
+                                    <Text text="{productModel>stock}" />
+                                    <Text text="{productModel>minStock}" />
+                                    <HBox>
+                                        <Button
+                                            text="Edit"
+                                            icon="sap-icon://edit"
+                                            type="Ghost"
+                                            press="onEditProduct" />
+                                        <Button
+                                            text="Delete"
+                                            icon="sap-icon://delete"
+                                            type="Reject"
+                                            class="sapUiTinyMarginBegin"
+                                            press="onDeleteProduct" />
+                                    </HBox>
+                                </cells>
+                            </ColumnListItem>
+                        </items>
+                    </Table>
+                </VBox>
+            </content>
+        </Page>
+    </App>
+    
+</mvc:View>
