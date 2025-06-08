@@ -90,8 +90,8 @@
                             press="onCancel"
                             class="sapUiTinyMarginEnd" />
                         <Button 
+                            text="Save"                        
                             id="saveButton"
-                            text="Save"
                             type="Emphasized"
                             press="onSave" />
                     </HBox>

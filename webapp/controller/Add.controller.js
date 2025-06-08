@@ -11,8 +11,12 @@ sap.ui.define(
     return Controller.extend("ui5l1.controller.Add", {
       onInit: function () {
         this._oRouter = this.getOwnerComponent().getRouter();
-        this._oRouter.getRoute("add").attachPatternMatched(this._onRouteMatched, this);
-        this._oRouter.getRoute("edit").attachPatternMatched(this._onEditRouteMatched, this);
+        this._oRouter
+          .getRoute("add")
+          .attachPatternMatched(this._onRouteMatched, this);
+        this._oRouter
+          .getRoute("edit")
+          .attachPatternMatched(this._onEditRouteMatched, this);
         this._initializeFormModel();
       },
 
@@ -141,7 +145,10 @@ sap.ui.define(
 
         if (!oData.category) {
           oFormModel.setProperty("/categoryState", "Error");
-          oFormModel.setProperty("/categoryStateText", "Please select a category");
+          oFormModel.setProperty(
+            "/categoryStateText",
+            "Please select a category"
+          );
           bValid = false;
         } else {
           oFormModel.setProperty("/categoryState", "Success");
@@ -151,7 +158,10 @@ sap.ui.define(
         var fPrice = parseFloat(oData.price);
         if (!oData.price || isNaN(fPrice) || fPrice <= 0) {
           oFormModel.setProperty("/priceState", "Error");
-          oFormModel.setProperty("/priceStateText", "Please enter a valid price greater than 0");
+          oFormModel.setProperty(
+            "/priceStateText",
+            "Please enter a valid price greater than 0"
+          );
           bValid = false;
         } else {
           oFormModel.setProperty("/priceState", "Success");
@@ -161,7 +171,10 @@ sap.ui.define(
         var iStock = parseInt(oData.stock);
         if (!oData.stock || isNaN(iStock) || iStock < 0) {
           oFormModel.setProperty("/stockState", "Error");
-          oFormModel.setProperty("/stockStateText", "Please enter a valid stock quantity");
+          oFormModel.setProperty(
+            "/stockStateText",
+            "Please enter a valid stock quantity"
+          );
           bValid = false;
         } else {
           oFormModel.setProperty("/stockState", "Success");
@@ -171,7 +184,10 @@ sap.ui.define(
         var iMinStock = parseInt(oData.minStock);
         if (!oData.minStock || isNaN(iMinStock) || iMinStock < 0) {
           oFormModel.setProperty("/minStockState", "Error");
-          oFormModel.setProperty("/minStockStateText", "Please enter a valid minimum stock level");
+          oFormModel.setProperty(
+            "/minStockStateText",
+            "Please enter a valid minimum stock level"
+          );
           bValid = false;
         } else {
           oFormModel.setProperty("/minStockState", "Success");
@@ -182,19 +198,33 @@ sap.ui.define(
       },
 
       onSave: function () {
-        if (!this._validateForm()) {
-          MessageToast.show("Please correct the errors before saving");
+        var oFormModel = this.getView().getModel("formModel");
+        var oProductModel = this.getOwnerComponent().getModel("productModel");
+
+        var oNewProduct = oFormModel.getData();
+
+        oNewProduct.price = parseFloat(oNewProduct.price);
+        oNewProduct.stock = parseInt(oNewProduct.stock);
+        oNewProduct.minStock = parseInt(oNewProduct.minStock);
+
+        var aProducts = oProductModel.getProperty("/products");
+
+        var bExists = aProducts.some(function (p) {
+          return p.id === oNewProduct.id;
+        });
+
+        if (bExists) {
+          MessageBox.error("Product with this ID already exists.");
           return;
         }
 
-        var oFormModel = this.getView().getModel("formModel");
-        var oFormData = oFormModel.getData();
+        aProducts.push(oNewProduct);
 
-        if (this._sMode === "add") {
-          this._addProduct(oFormData);
-        } else {
-          this._updateProduct(oFormData);
-        }
+        oProductModel.setProperty("/products", aProducts);
+
+        MessageToast.show("Product added successfully");
+
+        this._oRouter.navTo("home");
       },
 
       _addProduct: function (oFormData) {
